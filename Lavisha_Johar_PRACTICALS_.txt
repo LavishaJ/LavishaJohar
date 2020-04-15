@@ -1,7 +1,7 @@
-    1. ?Create Database library_system ;
+    1. Create Database library_system ;
 USE library_system ;
-?Create table LibraryBooks (Accession_Number (integer)) primary key, Title (varchar(20)) not null, Author (varchar(60)) not null, Department (varchar(30)) not null ,Purchase_Date (date) not null, Price (decimal(5,2)) ;
- ?Create table IssuedBooks (Accession_Number (integer)not null, Borrower(varchar(47)) not null , Foreign key (Accession_Number) REFRENCES LibraryBooks (Accession_Number));
+Create table LibraryBooks (Accession_Number (integer)) primary key, Title (varchar(20)) not null, Author (varchar(60)) not null, Department (varchar(30)) not null ,Purchase_Date (date) not null, Price (decimal(5,2)) ;
+ Create table IssuedBooks (Accession_Number (integer)not null, Borrower(varchar(47)) not null , Foreign key (Accession_Number) REFRENCES LibraryBooks (Accession_Number));
     (a) Primary Key -- Accession_Number in TABLE LibraryBooks
 Foreign Key -- Accession_Number in TABLE IssuedBooks
 
@@ -26,12 +26,12 @@ Foreign Key -- Accession_Number in TABLE IssuedBooks
     (f) SSELECT Title From LibraryBooks, IssuedBooks WHERE LibraryBooks.Accession Number = IssiedBooks.Accession Number and Department = "CS" ;
     (g)  SELECT Title FROM LibraryBooks WHERE (Price < 500 And Purchase_Date BETWEEN "1999-01-01" And "2004-01-01") ;
 
-2. ?CREATE DATABASE ComputerScience ;
+2. CREATE DATABASE ComputerScience ;
      USE ComputerScience;
-?CREATE table Personal_Information (College_Roll_Number (Integer(7)) primary key , Name (varchar(50))not null, Date_of_birth (date) not null , Address (varchar(60)), Marks_in_10+2 (integer(2)) not null, Phone_number varchar(10)) not null) ; 
-?CREATE TABLE PaperDetails (Paper_Code(int(4)) primary key ,Name_of_the_paper (char(80)) unique ); 
+CREATE table Personal_Information (College_Roll_Number (Integer(7)) primary key , Name (varchar(50))not null, Date_of_birth (date) not null , Address (varchar(60)), Marks_in_10+2 (integer(2)) not null, Phone_number varchar(10)) not null) ; 
+CREATE TABLE PaperDetails (Paper_Code(int(4)) primary key ,Name_of_the_paper (char(80)) unique ); 
 
-?CREATE TABLE Student_Academic_And_Attendance_Details (College_Roll_Number (int(7)) primary key, Paper Code(int(4)) not null , Attendance(int) not null ,Marks (int(3)) not null ,Foreign Key (College_Roll_Number) REFRENCES Personal_Information (College_Roll_Number) ,Foreign Key (Paper_Code) REFRENCES PaperDetails (Paper_Code)) ; 
+CREATE TABLE Student_Academic_And_Attendance_Details (College_Roll_Number (int(7)) primary key, Paper Code(int(4)) not null , Attendance(int) not null ,Marks (int(3)) not null ,Foreign Key (College_Roll_Number) REFRENCES Personal_Information (College_Roll_Number) ,Foreign Key (Paper_Code) REFRENCES PaperDetails (Paper_Code)) ; 
     (a)  Primary key --  College_Roll_Number in TABLE        Personal_Information 
 Paper_Code in TABLE PaperDetails 
 Foreign Key -- College_Roll_Number in TABLE Student_Academic_And_Attendance_Details
@@ -59,14 +59,14 @@ Paper_Code in TABLE Student_Academic_And_Attendance_Details
 (c)  SELECT Name from Personal_Information as pi , Student_Academic_And_Attendance_Details as sa where (pi.College_Roll_Number = sa.College_Roll_Number and sa.Marks >60 and sa.Paper_Code = 001 ) ; 
 (d)  SELECT pi.Name,sa.Attendance,sa.Marks from Personal_Information as pi, Student_Academic_And_Attendance_Details as sa where (pi.College_Roll_Number = sa.College_Roll_Number ); 
 (e) SELECT Name FROM Personal_Information as pi, Student_Academic_And_Attendance_Details as sa WHERE ( pi.College_Roll_Number = sa.College_Roll_Number and pi.College_Roll_Number =(SELECT College_Roll_Number FROM Student_Academic_And_Attendance_Details WHERE Marks =(SELECT MAX (Marks) FROM Student_Academic_And_Attendance_Details)) ; 
-3. ?CREATE DATABASE Bicycles ;
+3. CREATE DATABASE Bicycles ;
      Use Bicycles;
-?CREATE TABLE Customer (CustID (int(30)) primary key , email (varchar(60)) not null , Name (varchar(60)) not null , Phone (varchar(10)), ReferrerID (varchar(20)) not null ); 
+CREATE TABLE Customer (CustID (int(30)) primary key , email (varchar(60)) not null , Name (varchar(60)) not null , Phone (varchar(10)), ReferrerID (varchar(20)) not null ); 
 
-?CREATE TABLE BicycleModel (ModelNo (int) primary key , Manufacturer (char(30)) not null , Style (varchar(20)) not null ) ; 
+CREATE TABLE BicycleModel (ModelNo (int) primary key , Manufacturer (char(30)) not null , Style (varchar(20)) not null ) ; 
 
-?CREATE TABLE Bicycle (BicycleID (int) primary key , DatePurchased (Date) not null, Color (char(20)) not null , CustID (int) not null , ModelNo (int) not null, Foreign Key (CustID) REFERENCES Customer (CustID) , Foreign Key (ModelNo) REFERENCES BicycleModel(ModelNo) ) ; 
-?CREATE TABLE Service (StartDate (Date) not null , BicycleID (int) not null , EndDate (Date) not null , Foreign Key (BicycleID) REFERENCES Bicycle(BicycleID));
+CREATE TABLE Bicycle (BicycleID (int) primary key , DatePurchased (Date) not null, Color (char(20)) not null , CustID (int) not null , ModelNo (int) not null, Foreign Key (CustID) REFERENCES Customer (CustID) , Foreign Key (ModelNo) REFERENCES BicycleModel(ModelNo) ) ; 
+CREATE TABLE Service (StartDate (Date) not null , BicycleID (int) not null , EndDate (Date) not null , Foreign Key (BicycleID) REFERENCES Bicycle(BicycleID));
 (a)   Primary Key - CustID in TABLE Customer 
                                   ModelNo in TABLE BicycleModel
                                   BicycleID in TABLE Bicycle 
@@ -105,15 +105,15 @@ Paper_Code in TABLE Student_Academic_And_Attendance_Details
 (d) SELECT bm.Manufacturer FROM Bicycle as bi , BicycleModel as bm WHERE ( bi.ModelNo = bm.ModelNo and bi.Color = "Red" );
 (e) SELECT ModelNo FROM Bicycle WHERE BicycleID IN (SELECT DISTINCT BicycleID FROM Service );
 
-4. ?CREATE DATABASE Company_Details ;
+4. CREATE DATABASE Company_Details ;
        Use Company_Details;
- ?CREATE TABLE EMPLOYEE ( Person_Name(varchar (60)) primary key , Street (char(10)) not null , City(varchar(40)) not null  ) ; 
+ CREATE TABLE EMPLOYEE ( Person_Name(varchar (60)) primary key , Street (char(10)) not null , City(varchar(40)) not null  ) ; 
 
-?CREATE TABLE COMPANY ( Company_Name(varchar(70)) primary key , City(varchar(60)) ) ;
+CREATE TABLE COMPANY ( Company_Name(varchar(70)) primary key , City(varchar(60)) ) ;
 
-?CREATE TABLE WORKS ( Person_Name(varchar(80)) , Company_Name(varchar(70)), Salary(decimal(10,2)) ,Foreign Key (Person_Name) REFERENCES  EMPLOYEE (Person_Name), Foreign Key (Company_Name) REFERENCES COMPANY(Company_Name));
+CREATE TABLE WORKS ( Person_Name(varchar(80)) , Company_Name(varchar(70)), Salary(decimal(10,2)) ,Foreign Key (Person_Name) REFERENCES  EMPLOYEE (Person_Name), Foreign Key (Company_Name) REFERENCES COMPANY(Company_Name));
 
-?CREATE TABLE MANAGES ( Person_Name varchar(70), Manager_Name(varchar(60)), Foreign Key (Person_Name) REFERENCES EMPLOYEE (Person_Name)) ;
+CREATE TABLE MANAGES ( Person_Name varchar(70), Manager_Name(varchar(60)), Foreign Key (Person_Name) REFERENCES EMPLOYEE (Person_Name)) ;
 
     - INSERT INTO EMPLOYEE VALUES (" Prem" , 12 , "New Delhi" );
     - INSERT INTO EMPLOYEE VALUES ("Hardik" ,13, "Mumbai");
@@ -150,12 +150,12 @@ Paper_Code in TABLE Student_Academic_And_Attendance_Details
 (f) SELECT Company_Name  ,Max(Salary), Min(Salary) , Avg(Salary) FROM WORKS GROUP BY Company_Name ; 
 (g) SELECT Company_Name ,Sum(Salary),Count(Company_Name) as "Number of Employees" FROM WORKS GROUP BY Company_Name ; 
 (h) SELECT Company_Name, Max(Salary) FROM WORKS ;
-5. ?CREATE DATABASE MACHINE ;
+5. CREATE DATABASE MACHINE ;
          USE MACHINE ; 
-    ?CREATE TABLE Suppliers (SNo (Int(10)) primary key , SName(varchar(30)) not null , Status (char(20)) not null , SCity (char(20)) not null ) ;
-? CREATE TABLE Parts (PNo (int(10)) primary key, PName (varchar(20)) not null , Colour (varchar(20)) not null, Weight (int(5)) not null , City (varchar(20)) not null ) ;
-? CREATE TABLE Project (JNo (int(10)) primary key , JName (char (30)) not null, Jcity (char(20)) not null ) ;
-? CREATE TABLE Shipment (SNo (int(30)) not null , Pno (int(10)) not null , Jno (int(8)) not null, Qunatity (int(8)) not null ,Foreign Key (SNo) REFERENCES Suppliers (SNo), Foreign Key (PNo) REFERENCES Parts (PNo) ,Foreign Key (JNo) REFERENCES Project (JNo)) ;
+    CREATE TABLE Suppliers (SNo (Int(10)) primary key , SName(varchar(30)) not null , Status (char(20)) not null , SCity (char(20)) not null ) ;
+CREATE TABLE Parts (PNo (int(10)) primary key, PName (varchar(20)) not null , Colour (varchar(20)) not null, Weight (int(5)) not null , City (varchar(20)) not null ) ;
+CREATE TABLE Project (JNo (int(10)) primary key , JName (char (30)) not null, Jcity (char(20)) not null ) ;
+CREATE TABLE Shipment (SNo (int(30)) not null , Pno (int(10)) not null , Jno (int(8)) not null, Qunatity (int(8)) not null ,Foreign Key (SNo) REFERENCES Suppliers (SNo), Foreign Key (PNo) REFERENCES Parts (PNo) ,Foreign Key (JNo) REFERENCES Project (JNo)) ;
     - INSERT INTO Suppliers VALUES ( "101" , "S1" , 30 , "Mumbai" ) ;
     - INSERT INTO Suppliers VALUES ( "102", "S2" , 19 , "Paris" ) ;
     - INSERT INTO Suppliers VALUES ("103" , "S1" , 26 , "Cape Town" ) ;
