@@ -1,0 +1,201 @@
+    1. ?Create Database library_system ;
+USE library_system ;
+?Create table LibraryBooks (Accession_Number (integer)) primary key, Title (varchar(20)) not null, Author (varchar(60)) not null, Department (varchar(30)) not null ,Purchase_Date (date) not null, Price (decimal(5,2)) ;
+ ?Create table IssuedBooks (Accession_Number (integer)not null, Borrower(varchar(47)) not null , Foreign key (Accession_Number) REFRENCES LibraryBooks (Accession_Number));
+    (a) Primary Key -- Accession_Number in TABLE LibraryBooks
+Foreign Key -- Accession_Number in TABLE IssuedBooks
+
+    - INSERT INTO LibraryBooks VALUES (5541, "Discrete Maths", "R.D Sharma" , "Mathematics", "2INT-5-4" , 550.00 ) ;
+    - INSERT INTO LibraryBooks VALUES (6721 , " Python programming" , "Navathe" , "CS", "2003-6-5", 650.00);
+    - INSERT INTO LibraryBooks VALUES (7588 , "Literature and Grammar" , "S.Chand" , "English" , "2001-7-18", 420.00) ;
+    - INSERT INTO LibraryBooks VALUES (8875 , "Database System Concepts" , "Bayross" , "CS" , "2000-5-26" , 435.00) ;
+    - INSERT INTO LibraryBooks VALUES (8765 , "Quantum Physics" , "Arihant" , "Physics" , "2005-6-11", 650.00) ;
+
+    - INSERT INTO IssuedBooks VALUES (5541 , "Aman");
+    - INSERT INTO IssuedBooks VALUES (6721 , "Derek" );
+    - INSERT INTO IssuedBooks VALUES ( 7588, "Akshay");
+    - INSERT INTO IssuedBooks VALUES ( 8875, "Naidu" );
+    - INSERT INTO IssuedBooks VALUES (8765 , "Pallavi");
+(b) SET Foreign_Key_Checks = Off ; 
+       DELETE FROM IssuedBooks WHERE Accession_Number = 8875 ;
+       DELETE FROM LibraryBooks WHERE Title = "Database System Concepts" ;
+       SET Foreign_Key_Checks = On ; 
+(c)  UPDATE LibraryBooks SET Department = "CS" WHERE Title = "Discrete Maths" ; 
+(d) SELECT Title FROM LibraryBooks WHERE Department = "CS" ; 
+    (e)  SELECT Title FROM LibraryBooks WHERE Department = "CS" and Author = "Navathe" ;
+    (f) SSELECT Title From LibraryBooks, IssuedBooks WHERE LibraryBooks.Accession Number = IssiedBooks.Accession Number and Department = "CS" ;
+    (g)  SELECT Title FROM LibraryBooks WHERE (Price < 500 And Purchase_Date BETWEEN "1999-01-01" And "2004-01-01") ;
+
+2. ?CREATE DATABASE ComputerScience ;
+     USE ComputerScience;
+?CREATE table Personal_Information (College_Roll_Number (Integer(7)) primary key , Name (varchar(50))not null, Date_of_birth (date) not null , Address (varchar(60)), Marks_in_10+2 (integer(2)) not null, Phone_number varchar(10)) not null) ; 
+?CREATE TABLE PaperDetails (Paper_Code(int(4)) primary key ,Name_of_the_paper (char(80)) unique ); 
+
+?CREATE TABLE Student_Academic_And_Attendance_Details (College_Roll_Number (int(7)) primary key, Paper Code(int(4)) not null , Attendance(int) not null ,Marks (int(3)) not null ,Foreign Key (College_Roll_Number) REFRENCES Personal_Information (College_Roll_Number) ,Foreign Key (Paper_Code) REFRENCES PaperDetails (Paper_Code)) ; 
+    (a)  Primary key --  College_Roll_Number in TABLE        Personal_Information 
+Paper_Code in TABLE PaperDetails 
+Foreign Key -- College_Roll_Number in TABLE Student_Academic_And_Attendance_Details
+Paper_Code in TABLE Student_Academic_And_Attendance_Details
+            
+    - INSERT INTO Personal_Information VALUES ( 1201 , "Kavish" , 2000-3-4 , "Delhi", 87, 9817654409 ) ;
+    - INSERT INTO Personal_Information VALUES (1202, " Arpan" , 2001-5-6, "Mumbai" ,86, 9816754379 ) ;
+    - INSERT INTO Personal_Information VALUES (1203 , "Shubankit" , 1999-6-7, " Uttar Pradesh" , 67,8998765413) ;
+    - INSERT INTO Personal_Information VALUES (1204, "Akshay" , 1998-5-9,"Rajasthan",82, 9875671570); 
+    - INSERT INTO Personal_Information VALUES (1205, "Tanay" , 1999-7-16, "Gujarat" ,76,7886157890); 
+
+    - INSERT INTO PaperDetails VALUES (001 , "Probability and Probability Distribution" );
+    - INSERT INTO PaperDetails VALUES (002 , "English Core" );
+    - INSERT INTO PaperDetails VALUES (003, "Algebra" ) ;
+    - INSERT INTO PaperDetails VALUES (004 , "Computer Science" ) ;
+    - INSERT INTO PaperDetails VALUES (005, "Environmental Studies" ) ;
+
+
+    - INSERT IN Student_Academic_And_Attendance_Details VALUES (1201 , 001 , 65 , 87) ;
+    - INSERT IN Student_Academic_And_Attendance_Details VALUES (1202 ,002 ,78, 86) ;
+    - INSERT IN Student_Academic_And_Attendance_Details VALUES ( 1203 , 003 , 81 , 67) ;
+    - INSERT IN Student_Academic_And_Attendance_Details VALUES ( 1204 , 004 ,86 , 82); 
+    - INSERT IN Student_Academic_And_Attendance_Details VALUES (1205 ,005 , 88, 76) ;
+(b) SELECT ppd.Paper_Code,ppd.Name_of_the_paper ,pi.Name FROM Paper_Details as ppd ,Personal_Information as pi WHERE Paper_Code = 2 and pi.College_Roll_Number IN (SELECT College_Roll_Number FROM Student_Academic_And_Attendance_Details WHERE Paper_Code =2 and Attendance >75 and Marks >60) ; 
+(c)  SELECT Name from Personal_Information as pi , Student_Academic_And_Attendance_Details as sa where (pi.College_Roll_Number = sa.College_Roll_Number and sa.Marks >60 and sa.Paper_Code = 001 ) ; 
+(d)  SELECT pi.Name,sa.Attendance,sa.Marks from Personal_Information as pi, Student_Academic_And_Attendance_Details as sa where (pi.College_Roll_Number = sa.College_Roll_Number ); 
+(e) SELECT Name FROM Personal_Information as pi, Student_Academic_And_Attendance_Details as sa WHERE ( pi.College_Roll_Number = sa.College_Roll_Number and pi.College_Roll_Number =(SELECT College_Roll_Number FROM Student_Academic_And_Attendance_Details WHERE Marks =(SELECT MAX (Marks) FROM Student_Academic_And_Attendance_Details)) ; 
+3. ?CREATE DATABASE Bicycles ;
+     Use Bicycles;
+?CREATE TABLE Customer (CustID (int(30)) primary key , email (varchar(60)) not null , Name (varchar(60)) not null , Phone (varchar(10)), ReferrerID (varchar(20)) not null ); 
+
+?CREATE TABLE BicycleModel (ModelNo (int) primary key , Manufacturer (char(30)) not null , Style (varchar(20)) not null ) ; 
+
+?CREATE TABLE Bicycle (BicycleID (int) primary key , DatePurchased (Date) not null, Color (char(20)) not null , CustID (int) not null , ModelNo (int) not null, Foreign Key (CustID) REFERENCES Customer (CustID) , Foreign Key (ModelNo) REFERENCES BicycleModel(ModelNo) ) ; 
+?CREATE TABLE Service (StartDate (Date) not null , BicycleID (int) not null , EndDate (Date) not null , Foreign Key (BicycleID) REFERENCES Bicycle(BicycleID));
+(a)   Primary Key - CustID in TABLE Customer 
+                                  ModelNo in TABLE BicycleModel
+                                  BicycleID in TABLE Bicycle 
+        Foreign Key - CustID in table Bicycle 
+                                  ModelNo in TABLE Bicycle 
+    BicycleID in TABLE Service 
+
+    - INSERT INTO Customer VALUES   ( 1212, " rupesh1213@gmail.com"  , "Rupesh" , "9817654789" , "C1" );
+    - INSERT INTO Customer VALUES  ( 1213 , " abhishek1213@gmail.com" , "Abhishek" , "7889816578" , "C2");
+    - INSERT INTO Customer VALUES   (1214, "  Maharshi1214@gmail.com " , "Maharshi" , "8719980178" , "C3" ); 
+    - INSERT INTO Customer VALUES  (1215 , "Noel1215@gmail.com"  , "Noel" , "7888981088" , "C4" ) ;
+    - INSERT INTO Customer VALUES   (1216, "Jay1216@gmail.com" , "Jay" , "8910758966", "C5" ) ;
+
+
+    - INSERT INTO BicycleModel VALUES ( 101, "Honda" , "Scooty") ;
+    - INSERT INTO BicycleModel VALUES ( 102, "Hercules" ,"Sports");
+    - INSERT INTO BicycleModel VALUES (103 , "Hero" , "Bike") ;
+    - INSERT INTO BicycleModel VALUES (104, "Honda" , "Sports" ) ;
+    - INSERT INTO BicycleModel VALUES (105 , "Hero" , "Scooty" ) ;
+
+
+    - INSERT INTO Bicycle VALUES   (11, "2000-4-5" , "Red" , 1212,101 ) ;
+    - INSERT INTO Bicycle VALUES   ( 12, " 2001-5-7" , "Blue" , 1213, 102) ;
+    - INSERT INTO Bicycle VALUES   (13, "2017-5-17" , "White" , 1214 ,103 ) ;
+    - INSERT INTO Bicycle VALUES  (14 , "2016-4-15" , "Orange" , 1215, 104 ) ;
+    - INSERT INTO Bicycle VALUES  (15 , " 2018-3-15" , "Yellow" , 1216 ,105) ;
+
+    - INSERT INTO Service VALUES ( "2019-4-16" , 11 , "2019-4-26" );
+    - INSERT INTO Service VALUES ( "2019-5-14" , 12, "2019-5-24" );
+    - INSERT INTO Service VALUES ( "2019-6-17" , 13 , "2019-6-27" );
+    - INSERT INTO Service VALUES ( "2019-7-13" , 14 , "2019-7-23");
+    - INSERT INTO Service VALUES ( "2019 -3-15" , 15, "2019-3-25" );
+
+(b) SELECT * FROM Customer WHERE CustID IN (SELECT CustID from Bicycle WHERE ModelNo IN (SELECT ModelNo FROM BicycleModel WHERE Manufacturer = "Honda" ));
+(c) SELECT * FROM BicycleModel WHERE ModelNo IN (SELECT ModelNo FROM Bicycle WHERE CustID IN (SELECT CustID FROM Customer WHERE RefferID = "C1"));
+(d) SELECT bm.Manufacturer FROM Bicycle as bi , BicycleModel as bm WHERE ( bi.ModelNo = bm.ModelNo and bi.Color = "Red" );
+(e) SELECT ModelNo FROM Bicycle WHERE BicycleID IN (SELECT DISTINCT BicycleID FROM Service );
+
+4. ?CREATE DATABASE Company_Details ;
+       Use Company_Details;
+ ?CREATE TABLE EMPLOYEE ( Person_Name(varchar (60)) primary key , Street (char(10)) not null , City(varchar(40)) not null  ) ; 
+
+?CREATE TABLE COMPANY ( Company_Name(varchar(70)) primary key , City(varchar(60)) ) ;
+
+?CREATE TABLE WORKS ( Person_Name(varchar(80)) , Company_Name(varchar(70)), Salary(decimal(10,2)) ,Foreign Key (Person_Name) REFERENCES  EMPLOYEE (Person_Name), Foreign Key (Company_Name) REFERENCES COMPANY(Company_Name));
+
+?CREATE TABLE MANAGES ( Person_Name varchar(70), Manager_Name(varchar(60)), Foreign Key (Person_Name) REFERENCES EMPLOYEE (Person_Name)) ;
+
+    - INSERT INTO EMPLOYEE VALUES (" Prem" , 12 , "New Delhi" );
+    - INSERT INTO EMPLOYEE VALUES ("Hardik" ,13, "Mumbai");
+    - INSERT INTO EMPLOYEE VALUES ("Hritik" , 14 , "Pune" ) ;
+    - INSERT INTO EMPLOYEE VALUES ("Raj" , 15 , "Andheri" );
+    - INSERT INTO EMPLOYEE VALUES ( "Charles" ,16, "New Delhi");
+
+    - INSERT INTO COMPANY VALUES ("Samba Bank" , "New Delhi") ;
+    - INSERT INTO COMPANY VALUES ("Axis Bank" , "Mumbai" ) ;
+    - INSERT INTO COMPANY VALUES ( "NCB Bank" , "Pune") ;
+    - INSERT INTO COMPANY VALUES ( "State Bank of India" , "Andheri") ;
+    - INSERT INTO COMPANY VALUES ( "Bank of Baroda" , "New Delhi") ;
+
+    - INSERT INTO WORKS VALUES ("Prem", "Samba Bank" , 25000 ) ; 
+    - INSERT INTO WORKS VALUES ( "Hardik" , "Axis Bank" , 30000) ; 
+    - INSERT INTO WORKS VALUES ( "Hritik" , " NCB Bank" ,35000) ; 
+    - INSERT INTO WORKS VALUES ("Raj", "State Bank of India" , 40000 ) ; 
+    - INSERT INTO WORKS VALUES ( "Charles" , "Bank of Baroda" , 45000) ; 
+
+    - INSERT INTO MANAGES VALUES ("Prem", "Naidu" ) ; 
+    - INSERT INTO MANAGES VALUES ("Hardik", "Raja" ) ; 
+    - INSERT INTO MANAGES VALUES ( "Hritik" , "Kartik") ; 
+    - INSERT INTO MANAGES VALUES ("Raj", "Akshay" ) ; 
+    - INSERT INTO MANAGES VALUES ( "Charles" , "Shijin") ; 
+        (a) Primary Key -- Person_Name in TABLE EMPLOYEE
+                          Company_Name in TABLE COMPANY
+               Foreign Key -- Person_Name in TABLE WORKS 
+                                         Company_Name in TABLE COMPANY
+            Person_Name in TABLE MANAGES 
+(b)  ALTER TABLE EMPLOYEE ADD Column email varchar(20);
+(c) SELECT DISTINCT (Manager_Name) FROM MANAGES as ma , WORKS as w WHERE (ma.Person_Name =w.Person_Name and (w.Company_Name = "Samba Bank" or w.Company_Name="NCB Bank" ));
+(d) SELECT e.Person_Name ,e.Street,e.City,w.Salary FROM EMPLOYEE as e , WORKS as w WHERE (e.Person_Name =w.Person_Name and w.Company_Name ="Samba Bank" and w.Salary>10000);
+(e) SELECT e.Person_Name FROM EMPLOYEE as e ,WORKS as w ,COMPANY as c WHERE (e.Person_Name= w.Person_Name and e.city=c.city and w.Company_Name =c.Company_Name ; 
+(f) SELECT Company_Name  ,Max(Salary), Min(Salary) , Avg(Salary) FROM WORKS GROUP BY Company_Name ; 
+(g) SELECT Company_Name ,Sum(Salary),Count(Company_Name) as "Number of Employees" FROM WORKS GROUP BY Company_Name ; 
+(h) SELECT Company_Name, Max(Salary) FROM WORKS ;
+5. ?CREATE DATABASE MACHINE ;
+         USE MACHINE ; 
+    ?CREATE TABLE Suppliers (SNo (Int(10)) primary key , SName(varchar(30)) not null , Status (char(20)) not null , SCity (char(20)) not null ) ;
+? CREATE TABLE Parts (PNo (int(10)) primary key, PName (varchar(20)) not null , Colour (varchar(20)) not null, Weight (int(5)) not null , City (varchar(20)) not null ) ;
+? CREATE TABLE Project (JNo (int(10)) primary key , JName (char (30)) not null, Jcity (char(20)) not null ) ;
+? CREATE TABLE Shipment (SNo (int(30)) not null , Pno (int(10)) not null , Jno (int(8)) not null, Qunatity (int(8)) not null ,Foreign Key (SNo) REFERENCES Suppliers (SNo), Foreign Key (PNo) REFERENCES Parts (PNo) ,Foreign Key (JNo) REFERENCES Project (JNo)) ;
+    - INSERT INTO Suppliers VALUES ( "101" , "S1" , 30 , "Mumbai" ) ;
+    - INSERT INTO Suppliers VALUES ( "102", "S2" , 19 , "Paris" ) ;
+    - INSERT INTO Suppliers VALUES ("103" , "S1" , 26 , "Cape Town" ) ;
+    - INSERT INTO Suppliers VALUES ( "104" , "S2" , 30, "London" ) ;
+    - INSERT INTO Suppliers VALUES ("105" , "S2", 28 , "Chennai" ) ;
+
+
+    - INSERT INTO Parts VALUES (201, "P1" , "Red" , 17 , "Mumbai" ) ; 
+    - INSERT INTO Parts VALUES ( 202 , "P2" , "Black" , 20, "Paris") ; 
+    - INSERT INTO Parts VALUES ( 203 , "P3" , "Grey" , 25, "Cape Town" ) ; 
+    - INSERT INTO Parts VALUES (204 , "P4" , "Black" , 56, "London" ) ; 
+    - INSERT INTO Parts VALUES ( 205 , "P5" , "Green" ,40 , "Chennai" ) ; 
+
+
+    - INSERT INTO Project VALUES ( 301, " J1" , "Paris " ) ;
+    - INSERT INTO Project VALUES ( 302, "J2" , "London" ) ;
+    - INSERT INTO Project VALUES ( 303 , "J3" , "Chennai" ) ;
+    - INSERT INTO Project VALUES (304 , "J4" , "New Delhi"  ) ;
+    - INSERT INTO Project VALUES (305 , "J5", "Mumbai"  ) ;
+
+    - INSERT INTO Shipment VALUES (101,201,301,250);
+    - INSERT INTO Shipment VALUES (102,202,302,100);
+    - INSERT INTO Shipment VALUES (103,203,303,500);
+    - INSERT INTO Shipment VALUES (104,204,300);
+    - INSERT INTO Shipment VALUES (105,205,305,750);
+
+    (a)   Primary Key - SNo in TABLE Suppliers 
+                                 PNo in TABLE Parts 
+                                 JNo in TABLE Shipment 
+       Foreign Key - SNo in TABLE Shipment 
+                                PNo in TABLE Shipment 
+                                JNo in TABLE Shipment 
+    (b) SELECT SNo FROM Suppliers WHERE SCity = "Paris" and Status >20 ;
+    (c)    SELECT * FROM Suppliers WHERE SNo IN(SELECT SNo FROM Shipment WHERE PNo IN (SELECT PNo FROM Parts WHERE PName = "P2" )) ORDER BY SNo ; 
+    (d) SELECT SName FROM Suppliers WHERE SNo IN (SELECT DISTINCT SNo FROM Shipment WHERE PNo IN (SELECT PNo FROM Parts WHERE PName != " P2" )); 
+    (e) SSELECT s.SNo ,s.PNo ,s.JNo,s.Quantity , s.Quantity*p.Weight as "TotalShipmentWeight" FROM Shipment as s ,Parts as p WHERE s.PNo =p.PNo ;
+    (f) SELECT * FROM Shipment WHERE Quantity BETWEEN 300 and 750;
+    (g) SELECT PNo FROM Parts WHERE Weight >16 or PNo IN (SELECT PNo FROM Shipment WHERE SNo IN (SELECT s.SNo FROM Shipment as s , Suppliers as su WHERE s.SNo =su.SNo and su.SName = "S2" ;
+    (h) SELECT City FROM Parts WHERE Color ="Red" and PNo IN (SELECT PNo FROM Shipment WHERE Quantity >5);
+    (i) SELECT * FROM Parts WHERE PNo IN(SELECT PNo FROM Shipment WHERE SNo IN(SELECT SNo FROM Suppliers WHERE SCity = " London" );
+    (j) SELECT PNo FROM Shipment WHERE SNo IN (SELECT SNo FROM Suppliers WHERE SNo IN (SELECT SNo FROM Suppliers WHERE SCity = " London" ) and JNo IN (SELECT JNo FROM Project WHERE JCity = "London" ); 
+    (k) SELECT COUNT(DISTINCT(JNo)) as "Number of Projects supplied by Supplier S1" FROM Shipment WHERE SNo IN (SELECT SNo FROM Suppliers WHERE SName = "S1" ); 
+    (l) SELECT COUNT (*) FROM Parts WHERE PNo IN (SELECT PNo FROM Shipment WHERE SNo IN (SELECT SNo FROM Suppliers WHERE SName = "S1" and PName = "P1" ); 
